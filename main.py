@@ -21,7 +21,7 @@ class Ville:
 
 def main():
     temp = []
-    a = 100
+    a = 2
     for h in range(1, a):
         start_time = time.time()
 
