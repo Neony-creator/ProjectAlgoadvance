@@ -25,8 +25,8 @@ def main():
     for h in range(1, a):
         start_time = time.time()
 
-        filename = "C:/Users/Tanguy/Documents/pythonProject/villes_france.csv"
-        output = "C:/Users/Tanguy/Documents/pythonProject/villes_et_voisins"
+        filename = "./villes_france.csv"
+        output = "./villes_et_voisins"
 
         villes = []
 
