@@ -1,6 +1,6 @@
 import random
 import time
-import csv
+
 
 class Ville:
     def __init__(self, nomSimple):
@@ -8,12 +8,6 @@ class Ville:
         self.voisins = []
         self.distances = []
 
-    # def __str__(self):
-    #     toReturn = self.nomSimple + ","
-    #     for i in range(0, len(self.voisins)):
-    #         toReturn += self.voisins[i].nomSimple + ","
-    #         toReturn += str(self.distances[i]) + ","
-    #     return toReturn
     def __str__(self):
         toReturn = [v.nomSimple + "," + str(d) + "," for v, d in zip(self.voisins, self.distances)]
         return self.nomSimple + "," + "".join(toReturn)
@@ -25,7 +19,7 @@ def main():
     for h in range(1, a):
         start_time = time.time()
 
-        filename = "./villes_france.csv"
+        filename = "villes_france.csv"
         output = "./villes_et_voisins"
 
         villes = []
@@ -57,11 +51,9 @@ def main():
                         voisin.voisins.append(v)
                         voisin.distances.append(d)
 
-
         with open(output, 'w') as writer:
             for ville in villesFinales:
                 writer.write(str(ville) + "\n")
-
 
         # print(str(h), "Runtime: ", time.process_time()/h)
         end_time = time.time()
@@ -69,8 +61,9 @@ def main():
         # print(str(h), "Runtime :" + str(runtime))
         temp.append(runtime)
 
-    print("Runtime 1 :" + str(time.process_time()/a))
-    print("Runtime 2 :" + str(sum(x for x in temp)/a))
+    print("Runtime 1 :" + str(time.process_time() / a))
+    print("Runtime 2 :" + str(sum(x for x in temp) / a))
+
 
 if __name__ == '__main__':
     main()
