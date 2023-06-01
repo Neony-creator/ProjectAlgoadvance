@@ -19,7 +19,7 @@ def main():
     for h in range(1, a):
         start_time = time.time()
 
-        filename = "villes_france.csv"
+        filename = "./villes_france_mini.csv"
         output = "./villes_et_voisins"
 
         villes = []
