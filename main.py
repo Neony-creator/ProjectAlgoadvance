@@ -55,10 +55,8 @@ def main():
             for ville in villesFinales:
                 writer.write(str(ville) + "\n")
 
-        # print(str(h), "Runtime: ", time.process_time()/h)
         end_time = time.time()
         runtime = end_time - start_time
-        # print(str(h), "Runtime :" + str(runtime))
         temp.append(runtime)
 
     print("Runtime 1 :" + str(time.process_time() / a))
