@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
     print("Premier matrice : ", m)
     print("Runtime : ", time.time() - timer)
-    best = aco(m, iterations=1000, ants=10, cities=size, evaporation=0.1, intensification=2)
+    best = aco(m, iterations=100, ants=10, cities=size, evaporation=0.1, intensification=2)
 
     print("Best : ", best)
     print("Process : ", time.process_time())
