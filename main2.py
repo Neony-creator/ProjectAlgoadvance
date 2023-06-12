@@ -131,7 +131,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
 if __name__ == '__main__':
     size = 5000
     # m = np.random.uniform(1, 10, size=(size, size))
-
+#zdzad
 
 
     # np.fill_diagonal(m, 0)
