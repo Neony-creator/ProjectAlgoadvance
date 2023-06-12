@@ -6,8 +6,14 @@ warnings.filterwarnings("ignore")
 
 
 def adjacency_matrix(matrix):
+    timer = time.time()
     adj = np.zeros(matrix.shape)
 
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            adj[i][j] = matrix[i][j]*matrix[j][i]
+    print("Runtime adj : ", time.time() - timer)
+    return adj
 
 def update(pheromone, alpha, visibility, beta):
     return (pheromone ** alpha) * (visibility ** beta)
@@ -98,6 +104,8 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
             num_equal += 1
         else:
             num_equal = 0
+        print(time.process_time()/(i+1))
+
 
 # self.best_series.append(best_score)
         best_series.append(best_score)
@@ -108,7 +116,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
 
         print("Best score at iteration {}: {}; overall: {} ({}s)"
               "".format(i, round(best_score, 2), round(best_score_so_far, 2),
-                        round(time.time() - start_iter)))
+                        time.time() - start_iter))
 
         if best_score == best_score_so_far and num_equal == early_stopping_count:
             print("Stopping early due to {} iterations of the same score.".format(early_stopping_count))
@@ -121,17 +129,25 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
 
 
 if __name__ == '__main__':
-    size = 2000
-    m = np.random.uniform(1, 10, size=(size, size))
+    size = 5000
+    # m = np.random.uniform(1, 10, size=(size, size))
 
 
 
-    np.fill_diagonal(m, 0)
+    # np.fill_diagonal(m, 0)
 
-    # m *= m
+    # m = adjacency_matrix(m)
+    timer = time.time()
+    m = np.random.random_integers(1, 50, size=(size, size))
+
+    m_symm = (m + m.T)
+
+    np.fill_diagonal(m_symm, 0)
 
     print("Premier matrice : ", m)
-    best = aoc(m, iterations=10, ants=3, cities=size, evaporation=0.1, intensification=2)
+    print("Runtime : ", time.time() - timer)
+    best = aoc(m, iterations=10, ants=10, cities=size, evaporation=0.1, intensification=2)
 
     print("Best : ", best)
+    print("Process : ", time.process_time())
 
