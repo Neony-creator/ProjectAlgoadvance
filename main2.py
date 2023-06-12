@@ -15,6 +15,7 @@ def adjacency_matrix(matrix):
     print("Runtime adj : ", time.time() - timer)
     return adj
 
+
 def update(pheromone, alpha, visibility, beta):
     return (pheromone ** alpha) * (visibility ** beta)
 
@@ -49,13 +50,12 @@ def evaluate(matrix, paths):
     return (coordinates_i[best], coordinates_j[best]), paths[best], scores[best]
 
 
-def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
+def aco(matrix, iterations, ants, cities, evaporation, intensification):
     start_timer = time.time()
     alpha = 1.0
     beta = 1.0
     # beta_evaporation_rate = 0
-    # choose_best = 0.1
-    early_stopping_count = 10
+    early_stopping_count = 5
     best_score_so_far = 0
     num_equal = 0
     best_series = []
@@ -129,7 +129,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
 
 
 if __name__ == '__main__':
-    size = 5000
+    size = 1000
     # m = np.random.uniform(1, 10, size=(size, size))
 #zdzad
 
@@ -146,8 +146,7 @@ if __name__ == '__main__':
 
     print("Premier matrice : ", m)
     print("Runtime : ", time.time() - timer)
-    best = aoc(m, iterations=10, ants=10, cities=size, evaporation=0.1, intensification=2)
+    best = aco(m, iterations=1000, ants=10, cities=size, evaporation=0.1, intensification=2)
 
     print("Best : ", best)
     print("Process : ", time.process_time())
-
