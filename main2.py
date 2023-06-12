@@ -104,7 +104,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
             num_equal += 1
         else:
             num_equal = 0
-        print(time.process_time()/(i+1))
+        print("Process time", time.process_time()/(i+1))
 
 
 # self.best_series.append(best_score)
@@ -114,7 +114,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
         # pheromone[best_path_coords[0], best_path_coords[1]] += intensification
         probability = update(pheromone, alpha, visibility, beta)
 
-        print("Best score at iteration {}: {}; overall: {} ({}s)"
+        print("Best score at iteration {}: {}; overall: {} elapsed time ({}s)"
               "".format(i, round(best_score, 2), round(best_score_so_far, 2),
                         time.time() - start_iter))
 
@@ -131,7 +131,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, ):
 if __name__ == '__main__':
     size = 5000
     # m = np.random.uniform(1, 10, size=(size, size))
-
+#zdzad
 
 
     # np.fill_diagonal(m, 0)
