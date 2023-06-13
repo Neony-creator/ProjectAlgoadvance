@@ -1,6 +1,7 @@
 import time
 import numpy as np
 import warnings
+import networkx as nx
 
 warnings.filterwarnings("ignore")
 outputFile = "./LogTest.txt"
@@ -171,27 +172,37 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, writer, 
 
 
 if __name__ == '__main__':
-    size = 1000
+    size = 10
     # m = np.random.uniform(1, 10, size=(size, size))
-#zdzad
-
 
     # np.fill_diagonal(m, 0)
 
     # m = adjacency_matrix(m)
     timer = time.time()
+
     m = np.random.random_integers(1, 50, size=(size, size))
+    m = (m + m.T)
+    np.fill_diagonal(m, 0)
 
-    m_symm = (m + m.T)
-
-    np.fill_diagonal(m_symm, 0)
-
-    print("Premier matrice : ", m)
+    print("Premier matrice:\n", m)
     print("Runtime : ", time.time() - timer)
-    nbTest=modifier_premiere_ligne(outputFile)
+    nbTest = modifier_premiere_ligne(outputFile)
     with open(outputFile, 'a') as writer:
-        best = aoc(m, iterations=100, ants=10, cities=size, evaporation=0.1, intensification=2, writer=writer, nbTest= nbTest)
+        best = aoc(m, iterations=10, ants=10, cities=size, evaporation=0.1, intensification=2, writer=writer, nbTest= nbTest)
 
     print("Best : ", best)
     print("Process : ", time.process_time())
 
+#Création du graphe à partir de la matrice d'adjacence
+G = nx.from_numpy_array(m)
+
+#Obtention des poids des liens
+edge_labels = nx.get_edge_attributes(G, 'weight')
+
+#Dessin du graphe avec les poids des liens
+pos = nx.spring_layout(G)  # Positionnement des nœuds
+nx.draw(G, pos, with_labels=True, node_color='lightblue', node_size=500, edge_color='gray')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)  # Affichage des poids des liens
+
+#Affichage du graphe
+plt.show(
