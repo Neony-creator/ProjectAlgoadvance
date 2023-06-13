@@ -90,14 +90,13 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, writer, 
     alpha = 1.0
     beta = 1.0
     # beta_evaporation_rate = 0
-    # choose_best = 0.1
-    early_stopping_count = 10
+    early_stopping_count = 5
     best_score_so_far = 0
     num_equal = 0
     best_series = []
     best_path = 0
     best_serie_counter =0
-    counterOn=False;
+    counterOn=False
 
     available_cities = list(range(cities))
 
