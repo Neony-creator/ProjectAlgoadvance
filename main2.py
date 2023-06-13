@@ -3,7 +3,41 @@ import numpy as np
 import warnings
 
 warnings.filterwarnings("ignore")
+outputFile = "./LogTest.txt"
 
+def modifier_premiere_ligne(fichier):
+    try:
+        with open(fichier, 'x') as file:
+            print("fichier créé")
+            file.write("1")
+            return 1
+    except :
+        # Ouvrir le fichier en mode lecture et écriture
+        with open(fichier, 'r+') as file:
+            lignes = file.readlines()  # Lire toutes les lignes du fichier
+
+            if lignes:
+                premiere_ligne = lignes[0].strip()  # Récupérer la première ligne
+                nb = int(premiere_ligne)
+                nb+=1
+                del lignes[0]  # Supprimer la première ligne
+
+                # Replacer le curseur au début du fichier
+                file.seek(0)
+
+                # Écrire la nouvelle première ligne
+                file.write(str(nb)+"\n\n")
+
+                # Écrire les lignes restantes du fichier
+                file.writelines(lignes[1:])
+
+                # Tronquer le reste du fichier au cas où les nouvelles lignes sont plus courtes que les anciennes
+                file.truncate()
+
+
+                return nb
+            else:
+                return None
 
 def adjacency_matrix(matrix):
     timer = time.time()
@@ -14,7 +48,6 @@ def adjacency_matrix(matrix):
             adj[i][j] = matrix[i][j]*matrix[j][i]
     print("Runtime adj : ", time.time() - timer)
     return adj
-
 
 def update(pheromone, alpha, visibility, beta):
     return (pheromone ** alpha) * (visibility ** beta)
@@ -50,7 +83,8 @@ def evaluate(matrix, paths):
     return (coordinates_i[best], coordinates_j[best]), paths[best], scores[best]
 
 
-def aco(matrix, iterations, ants, cities, evaporation, intensification):
+def aoc(matrix, iterations, ants, cities, evaporation, intensification, writer, nbTest):
+    writer.write("test"+ str(nbTest))
     start_timer = time.time()
     alpha = 1.0
     beta = 1.0
@@ -60,6 +94,8 @@ def aco(matrix, iterations, ants, cities, evaporation, intensification):
     num_equal = 0
     best_series = []
     best_path = 0
+    best_serie_counter =0
+    counterOn=False
 
     available_cities = list(range(cities))
 
@@ -93,18 +129,23 @@ def aco(matrix, iterations, ants, cities, evaporation, intensification):
             path = []
 
         best_path_coords, best_path, best_score = evaluate(matrix, paths)
-
+        best_serie_counter += 1
         if i == 0:
             best_score_so_far = best_score
         else:
             if best_score < best_score_so_far:
                 best_score_so_far = best_score
+                best_serie_counter=0
 
         if best_score == best_score_so_far:
             num_equal += 1
         else:
             num_equal = 0
         print("Process time", time.process_time()/(i+1))
+        if best_serie_counter==20 and counterOn==True:
+            print("Stopping early due to {} iterations of the same best-score.".format(best_serie_counter),"Nb total iteration {}".format(i))
+            break
+        print("iteration to stayed the best :", best_serie_counter)
 
 
 # self.best_series.append(best_score)
@@ -146,7 +187,10 @@ if __name__ == '__main__':
 
     print("Premier matrice : ", m)
     print("Runtime : ", time.time() - timer)
-    best = aco(m, iterations=100, ants=10, cities=size, evaporation=0.1, intensification=2)
+    nbTest=modifier_premiere_ligne(outputFile)
+    with open(outputFile, 'a') as writer:
+        best = aoc(m, iterations=100, ants=10, cities=size, evaporation=0.1, intensification=2, writer=writer, nbTest= nbTest)
 
     print("Best : ", best)
     print("Process : ", time.process_time())
+
