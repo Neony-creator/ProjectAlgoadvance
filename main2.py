@@ -172,7 +172,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, writer, 
 
 
 if __name__ == '__main__':
-    size = int(input("Veuillez entrer la taille de la matrice: ")) #Demande la taille de la matrice
+    size = int(input("Veuillez entrer la taille de la matrice (si grosse matrice (+de 50) commentez plt.show): ")) #Demande la taille de la matrice
     # m = np.random.uniform(1, 10, size=(size, size))
 
     # np.fill_diagonal(m, 0)
@@ -193,15 +193,12 @@ if __name__ == '__main__':
     print("Best : ", best)
     print("Process : ", time.process_time())
 
-#Création du graphe à partir de la matrice d'adjacence
 G = nx.from_numpy_array(m)
 
-#Obtention des poids des liens
 edge_labels = nx.get_edge_attributes(G, 'weight')
 
-#Dessin du graphe avec les poids des liens
-pos = nx.spring_layout(G)  # Positionnement des nœuds
-nx.draw(G, pos, with_labels=True, node_color='green', node_size=500, edge_color='gray')
-nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)  # Affichage des poids des liens
+pos = nx.spring_layout(G)
+nx.draw(G, pos, with_labels=True, node_color='lightgreen', node_size=500, edge_color='gray')
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
 
-#plt.show() #Affichage du graphe en commentaire car fait crash le pc en size=1000
+plt.show() #Affichage du graphe en commentaire car fait crash le pc en size = 1000
