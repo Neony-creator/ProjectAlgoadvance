@@ -186,8 +186,9 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, writer, 
     #print("ACO finished. Best score: {}".format(best))
 
     writer.write("\n" + "test " + str(nbTest) +":" + ";" + str(elapsed_time) + ";" + str(time_elapsed_total) + ";" + str(process_time) + ";" +
-    str(process_time_total) + ";" + str(num_equal) + ";" + str(best_score) + ";" + str(best_serie_counter) + str(iterations) + ";" + str(ants) + ";" + str(size)+ ";" + str(evaporation)
+    str(process_time_total) + ";" + str(num_equal) + ";" + str(best_score) + ";" + str(best_serie_counter) + ";" + str(iterations) + ";" + str(ants) + ";" + str(size)+ ";" + str(evaporation) + ";"
                  )
+
     return best_path
 
 
@@ -241,7 +242,7 @@ if __name__ == '__main__':
             m = np.random.random_integers(1, 50, size=(size, size))
             m = (m + m.T)
             np.fill_diagonal(m, 0)
-            for iterations in range(20, 100, 50):
+            for iterations in range(20, 100, 10):
                 for evaporation in range(1, 10, 1):
                     nbTest+=1
                     with open(outputFile, 'a') as writer:
