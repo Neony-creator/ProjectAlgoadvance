@@ -201,9 +201,12 @@ def genGraphique():
 
     # Graphe
     plt.subplot(1, 2, 2)
-    nx.draw(G, pos, with_labels=True, node_color='lightgreen', node_size=500, edge_color='gray')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
-    plt.title('Graphe')
+    nx.draw(G, pos, with_labels=True, node_color='lightgreen', node_size=400, edge_color='none')
+    # nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels) #affiche les valeurs des arètes
+    for u, v in zip(best[:-1], best[1:]):
+        nx.draw_networkx_edges(G, pos, edgelist=[(u, v)], edge_color='red')
+    titreGraphe = "Graphe\n" + "Chemin optimal : " + str(best)
+    plt.title(titreGraphe)
 
     # Heatmap
     plt.subplot(1, 2, 1)
@@ -214,7 +217,6 @@ def genGraphique():
     # Affiche le graphe et la heatmap
     plt.tight_layout()
     plt.show()
-
 
 if __name__ == '__main__':
     size = 50
