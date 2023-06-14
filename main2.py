@@ -1,3 +1,4 @@
+import random
 import time
 import numpy as np
 import warnings
@@ -180,6 +181,7 @@ if __name__ == '__main__':
     # m = adjacency_matrix(m)
     timer = time.time()
 
+    np.random.seed(3)
     m = np.random.random_integers(1, 50, size=(size, size))
     m = (m + m.T)
     np.fill_diagonal(m, 0)
