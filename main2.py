@@ -172,7 +172,7 @@ def aoc(matrix, iterations, ants, cities, evaporation, intensification, writer, 
 
 
 if __name__ == '__main__':
-    size = int(input("Veuillez entrer la taille de la matrice (si grosse matrice (+de 50) commentez plt.show): ")) #Demande la taille de la matrice
+    size = int(input("Taille de la matrice: ")) #Demande la taille de la matrice
     # m = np.random.uniform(1, 10, size=(size, size))
 
     # np.fill_diagonal(m, 0)
@@ -188,17 +188,29 @@ if __name__ == '__main__':
     print("Runtime : ", time.time() - timer)
     nbTest = modifier_premiere_ligne(outputFile)
     with open(outputFile, 'a') as writer:
-        best = aoc(m, iterations=100, ants=10, cities=size, evaporation=0.1, intensification=2, writer=writer, nbTest= nbTest)
+        best = aoc(m, iterations=int(input("Nombre d'itération: ")), ants=10, cities=size, evaporation=0.1, intensification=2, writer=writer, nbTest= nbTest)
 
     print("Best : ", best)
     print("Process : ", time.process_time())
 
 G = nx.from_numpy_array(m)
-
 edge_labels = nx.get_edge_attributes(G, 'weight')
-
 pos = nx.spring_layout(G)
+
+plt.figure(figsize=(15, 8))
+
+#Graphe
+plt.subplot(1, 2, 2)
 nx.draw(G, pos, with_labels=True, node_color='lightgreen', node_size=500, edge_color='gray')
 nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
+plt.title('Graphe')
 
-plt.show() #Affichage du graphe en commentaire car fait crash le pc en size = 1000
+#Heatmap
+plt.subplot(1, 2, 1)
+plt.imshow(m, cmap='PuRd', interpolation='nearest')
+plt.colorbar()
+plt.title('Heatmap')
+
+#Affiche le graphe et la heatmap
+plt.tight_layout()
+plt.show()
