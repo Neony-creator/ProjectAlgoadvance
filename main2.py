@@ -198,12 +198,7 @@ def genGraphique ():
 if __name__ == '__main__':
     size =100
     iterations = 20
-    uiOn=input("voulez-vous choisir les valeurs des itérations et de la taille et générer les graphiques : (y/n)")
-
-    if(uiOn=="y") :
-        size = int(input("Taille de la matrice: ")) #Demande la taille de la matrice
-    # m = np.random.uniform(1, 10, size=(size, size))
-        iterations = int(input("Nombre d'itération: "))
+    grapheOn= False
     # np.fill_diagonal(m, 0)
 
     # m = adjacency_matrix(m)
@@ -222,5 +217,5 @@ if __name__ == '__main__':
 
     print("Best : ", best)
     print("Process : ", time.process_time())
-if(uiOn=="y") :
+if(grapheOn==True) :
     genGraphique()
