@@ -1,7 +1,7 @@
 import random
-import matplotlib.pyplot as plt
 
 import toolbox
+
 
 def evaluate(cities, paths):
     scores = []
@@ -32,30 +32,18 @@ def choose_next_city(probability, available, current):
     return random.choices(range(len(p)), weights=p, k=1)[0]
 
 def update(pheromone, alpha, villes, beta):
+    securite = 1e-6
+
     return [
         [
             (pheromone[i][j] ** alpha)
-            * (1 / (toolbox.euclidean_distance(villes[i], villes[j]) ** beta))
+            * (1 / ((toolbox.euclidean_distance(villes[i], villes[j]) or securite) ** beta))
             if i != j
             else 0
             for j in range(len(pheromone))
         ]
         for i in range(len(pheromone))
     ]
-
-def plot_tours(tours, cities):
-    fig, ax = plt.subplots()
-
-    ax.scatter([city[0] for city in cities], [city[1] for city in cities], color='blue', zorder=2)
-
-    route = [cities[i] for i in tours]
-    route.append(route[0])
-    ax.plot([city[0] for city in route], [city[1] for city in route], color='red', zorder=1)
-
-    ax.grid(False)
-
-    plt.show()
-
 
 def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
 
@@ -90,13 +78,8 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
             for c2 in range(len(pheromone)):
                 pheromone[c][c2] *= evaporation
 
-        # for z, z2 in enumerate(best_path_coords[0]):
-        #     pheromone[z][z2] += intensification
         for z in range(len(best_path_coords[0])):
             pheromone[best_path_coords[0][z]][best_path_coords[1][z]] += intensification
-
-
-        # pheromone[best_path_coords[0]][best_path_coords[1]] += intensification
 
         probability = update(pheromone, alpha, cities, beta)
 
