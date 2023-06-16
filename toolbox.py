@@ -2,6 +2,9 @@ import math
 import random
 import matplotlib.pyplot as plt
 import numpy as np
+import psutil
+import os
+
 
 def generate_cities(n):
     return [[random.randint(1, 100), random.randint(1, 100)] for _ in range(n)]
@@ -46,7 +49,6 @@ def kmeans(k, v):
     means = [[x, y] for x, y in points]
     print(points)
 
-
     vmeans = []
 
     for _ in range(1):
@@ -78,7 +80,7 @@ def plot_clusters(cities, vmeans):
     # num_clusters = len(means)
 
     # Create a list of colors for each cluster
-    colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'lime']  # Add more colors if needed
+    colors = ['red', 'orange', 'blue', 'yellow', 'lime', 'purple', 'pink']  # Add more colors if needed
 
     # Plot each data point with its corresponding color
     for i, point in enumerate(cities):
@@ -88,9 +90,17 @@ def plot_clusters(cities, vmeans):
 
     # for i in range(len(vmeans)):
 
-
     # Plot means with larger markers
     # for mean in means:
     #     plt.scatter(mean[0], mean[1], color='black', marker='x', s=100)
-
     plt.show()
+
+def cpu_usage():
+    process = psutil.Process(os.getpid())
+    mem_info = process.memory_info()
+    return mem_info.rss
+
+def cpu_pro():
+    cpu_percentages = psutil.cpu_percent(interval=1, percpu=True)
+    return sum(cpu_percentages) / len(cpu_percentages)
+
