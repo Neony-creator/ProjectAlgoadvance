@@ -37,7 +37,7 @@ def kmeans(k, v):
     # means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
     # means = [[50, 50] for _ in range(k)]
     points = []
-    angles = np.linspace(0, 2 * np.pi, k + 1)[:-1]
+    angles = linspace(0, 2 * math.pi, k + 1)
     for angle in angles:
         x = 100 / 2 * math.cos(angle) + 100 / 2
         y = 100 / 2 * math.sin(angle) + 100 / 2
@@ -70,6 +70,14 @@ def kmeans(k, v):
             # means[mean][1] = ty
 
     return vmeans
+
+def linspace(start, stop, n):
+    if n == 1:
+        yield stop
+        return
+    h = (stop - start) / (n - 1)
+    for i in range(n):
+        yield start + h * i
 
 
 # def plot_clusters(data, assignments, means):
