@@ -41,13 +41,14 @@ def kmeans(k, v):
     # means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
     # means = [[50, 50] for _ in range(k)]
     points = []
-    angles = np.linspace(0, 2 * np.pi, k + 1)[:-1]
+    angles = linspace(0, 2 * math.pi, k + 1)
     for angle in angles:
-        x = 100 / 2 * np.cos(angle) + 100 / 2
-        y = 100 / 2 * np.sin(angle) + 100 / 2
+        x = 100 / 2 * math.cos(angle) + 100 / 2
+        y = 100 / 2 * math.sin(angle) + 100 / 2
         points.append((x, y))
     means = [[x, y] for x, y in points]
     print(points)
+
 
     vmeans = []
 
@@ -74,13 +75,21 @@ def kmeans(k, v):
 
     return vmeans
 
+def linspace(start, stop, n):
+    if n == 1:
+        yield stop
+        return
+    h = (stop - start) / (n - 1)
+    for i in range(n):
+        yield start + h * i
+
 
 # def plot_clusters(data, assignments, means):
 def plot_clusters(cities, vmeans):
     # num_clusters = len(means)
 
     # Create a list of colors for each cluster
-    colors = ['red', 'orange', 'blue', 'yellow', 'lime', 'purple', 'pink']  # Add more colors if needed
+    colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'lime']  # Add more colors if needed
 
     # Plot each data point with its corresponding color
     for i, point in enumerate(cities):
