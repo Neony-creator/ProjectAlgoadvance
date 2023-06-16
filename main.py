@@ -5,7 +5,8 @@ import aco
 
 if __name__ == '__main__':
 
-    iterations = 100
+
+    iterations = 1000
     ants = 10
     alpha = 1
     beta = 10
@@ -13,8 +14,10 @@ if __name__ == '__main__':
     intensification = 0.8
     p = time.process_time()
     t = time.time()
+    nbTest = 0
+    outputFile = "./LogTest.txt"
 
-    v = toolbox.generate_cities(1000)
+
 
 #     v = [
 # [6734,1453],
@@ -66,12 +69,25 @@ if __name__ == '__main__':
 # [5185,3258],
 # [3023,1942]]
 
-    print(v)
 
-    vmeans = toolbox.kmeans(5, v)
-    toolbox.plot_clusters(v, vmeans)
 
-    # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
+    #vmeans = toolbox.kmeans(5, v)
+    #toolbox.plot_clusters(v, vmeans)
+
+    for i in range(50,1000,50) :
+        v = toolbox.generate_cities(i)
+        print(v)
+        for iterations in range(10,100,10) :
+            for ants in range(3,15):
+                for evaporation in range(2,10,2):
+                    for intensification in range(1,5):
+                        for beta in range (1,10):
+                            nbTest += 1
+                            with open(outputFile, 'a') as writer:
+                                forcoords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta,
+                                                                 intensification, writer, nbTest, size =i)
+
+
 
     # print("Path : ", path)
     # print("coords : ", coords)
