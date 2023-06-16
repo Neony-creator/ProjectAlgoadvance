@@ -5,6 +5,8 @@ import aco
 
 if __name__ == '__main__':
 
+    init1 = toolbox.cpu_usage()
+    init2 = toolbox.cpu_pro()
     iterations = 100
     ants = 10
     alpha = 1
@@ -13,6 +15,7 @@ if __name__ == '__main__':
     intensification = 0.8
     p = time.process_time()
     t = time.time()
+
 
     v = toolbox.generate_cities(1000)
 
@@ -68,7 +71,7 @@ if __name__ == '__main__':
 
     print(v)
 
-    vmeans = toolbox.kmeans(5, v)
+    vmeans = toolbox.kmeans(7, v)
     toolbox.plot_clusters(v, vmeans)
 
     # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
@@ -78,6 +81,11 @@ if __name__ == '__main__':
     # print("score : ", score)
     #
     # toolbox.afficher(path, v)
-
+    final1 = toolbox.cpu_usage()
+    final2 = toolbox.cpu_pro()
+    c1 = ((final1 - init1)/1024)/1024
+    c2 = final2 - init2
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
+    print("Memory usage : {} Mo".format(c1))
+    print("CPU usage : {} %".format(c2))
