@@ -1,5 +1,5 @@
 import random
-
+import  time
 import toolbox
 
 
@@ -45,7 +45,12 @@ def update(pheromone, alpha, villes, beta):
         for i in range(len(pheromone))
     ]
 
-def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
+def aco(cities, iterations, ants, evaporation, alpha, beta, intensification,writer, nbTest, size):
+    start_timer=time.time()
+    evaporation =evaporation/10
+    lastest_best_score = float('inf')
+    num_equal=0
+    best_serie_counter =0
 
     pheromone = [[1] * len(cities) for _ in range(len(cities))]
 
@@ -55,6 +60,8 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
     q = 0
 
     for i in range(iterations):
+        start_iter = time.time()
+        start_process_time = time.process_time()
         q+=1
         paths = []
         path = []
@@ -74,6 +81,13 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
             path = []
 
         best_path_coords, best_path, best_score = evaluate(cities, paths)
+        if (best_score < lastest_best_score ) :
+            lastest_best_score=best_score
+            best_serie_counter += 1
+
+        if(best_score==lastest_best_score):
+            num_equal +=1
+
 
 
         for c in range(len(pheromone)):
@@ -84,6 +98,19 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
             pheromone[best_path_coords[0][z]][best_path_coords[1][z]] += intensification
 
         probability = update(pheromone, alpha, cities, beta)
-        print("Heloo")
+        process_time = time.process_time() / (i + 1)
+        elapsed_time = time.time() - start_iter
+
+    process_time_total = time.process_time() - start_process_time
+    time_elapsed_total = time.time() - start_timer
+    writer.write(
+        "\n" + "test " + str(nbTest) + ":" + ";" + str(elapsed_time) + ";" + str(time_elapsed_total) + ";" + str(
+            process_time) + ";" +
+        str(process_time_total) + ";" + str(num_equal) + ";" + str(best_score) + ";" + str(
+            best_serie_counter) + ";" + str(iterations) + ";" + str(ants) + ";" + str(size) + ";" + str(
+            evaporation) + ";"
+    )
+    if nbTest % 1000 == 0:
+        print(time.process_time())
 
     return best_path_coords, best_path, best_score
