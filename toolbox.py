@@ -1,7 +1,6 @@
 import math
 import random
 import matplotlib.pyplot as plt
-import numpy as np
 
 def generate_cities(n):
     return [[random.randint(1, 100), random.randint(1, 100)] for _ in range(n)]
@@ -40,8 +39,8 @@ def kmeans(k, v):
     points = []
     angles = np.linspace(0, 2 * np.pi, k + 1)[:-1]
     for angle in angles:
-        x = 100 / 2 * np.cos(angle) + 100 / 2
-        y = 100 / 2 * np.sin(angle) + 100 / 2
+        x = 100 / 2 * math.cos(angle) + 100 / 2
+        y = 100 / 2 * math.sin(angle) + 100 / 2
         points.append((x, y))
     means = [[x, y] for x, y in points]
     print(points)
