@@ -52,8 +52,10 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
     probability = update(pheromone, alpha, cities, beta)
     available_cities = list(range(len(cities)))
 
+    q = 0
 
     for i in range(iterations):
+        q+=1
         paths = []
         path = []
         for ant in range(ants):
@@ -82,5 +84,6 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
             pheromone[best_path_coords[0][z]][best_path_coords[1][z]] += intensification
 
         probability = update(pheromone, alpha, cities, beta)
+        print("Heloo")
 
     return best_path_coords, best_path, best_score

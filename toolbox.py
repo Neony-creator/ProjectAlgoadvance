@@ -32,3 +32,55 @@ def afficher(path, cities):
     ax.grid(False)
 
     plt.show()
+
+
+def kmeans(k, v):
+    means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
+
+    vmeans = []
+
+    for _ in range(1):
+        for j in range(len(v)):
+            distance = [euclidean_distance(means[z], v[j]) for z in range(k)]
+            a = min(distance)
+            mean = distance.index(a)
+            vmeans.append(mean)
+
+            sommex = 0
+            sommey = 0
+            count = 0
+            for z in range(len(vmeans)):
+                if vmeans[z] == mean:
+                    count +=1
+                    sommex += v[z][0]
+                    sommey += v[z][1]
+
+            tx = sommex / count
+            ty = sommey / count
+            means[mean][0] = tx
+            means[mean][1] = ty
+
+    return vmeans
+
+
+# def plot_clusters(data, assignments, means):
+def plot_clusters(cities, vmeans):
+    # num_clusters = len(means)
+
+    # Create a list of colors for each cluster
+    colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow']  # Add more colors if needed
+
+    # Plot each data point with its corresponding color
+    for i, point in enumerate(cities):
+        cluster = vmeans[i]
+        color = colors[cluster % len(colors)]  # Assign colors cyclically if there are more clusters than colors
+        plt.scatter(point[0], point[1], color=color)
+
+    # for i in range(len(vmeans)):
+
+
+    # Plot means with larger markers
+    # for mean in means:
+    #     plt.scatter(mean[0], mean[1], color='black', marker='x', s=100)
+
+    plt.show()

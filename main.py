@@ -1,4 +1,3 @@
-import random
 import time
 
 import toolbox
@@ -6,13 +5,11 @@ import aco
 
 if __name__ == '__main__':
 
-    iterations = 50
+    iterations = 100
     ants = 10
     alpha = 1
     beta = 10
-    # evaporation = 0.1
     evaporation = 0.5
-    # intensification = 10
     intensification = 0.8
     p = time.process_time()
     t = time.time()
@@ -71,13 +68,16 @@ if __name__ == '__main__':
 
     print(v)
 
-    coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
+    vmeans = toolbox.kmeans(5, v)
+    toolbox.plot_clusters(v, vmeans)
 
-    print("Path : ", path)
-    print("coords : ", coords)
-    print("score : ", score)
+    # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
 
-    toolbox.afficher(path, v)
+    # print("Path : ", path)
+    # print("coords : ", coords)
+    # print("score : ", score)
+    #
+    # toolbox.afficher(path, v)
 
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
