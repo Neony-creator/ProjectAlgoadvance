@@ -1,7 +1,7 @@
 import math
 import random
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 def generate_cities(n):
     return [[random.randint(1, 100), random.randint(1, 100)] for _ in range(n)]
@@ -35,7 +35,17 @@ def afficher(path, cities):
 
 
 def kmeans(k, v):
-    means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
+    # means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
+    # means = [[50, 50] for _ in range(k)]
+    points = []
+    angles = np.linspace(0, 2 * np.pi, k + 1)[:-1]
+    for angle in angles:
+        x = 100 / 2 * np.cos(angle) + 100 / 2
+        y = 100 / 2 * np.sin(angle) + 100 / 2
+        points.append((x, y))
+    means = [[x, y] for x, y in points]
+    print(points)
+
 
     vmeans = []
 
@@ -49,16 +59,16 @@ def kmeans(k, v):
             sommex = 0
             sommey = 0
             count = 0
-            for z in range(len(vmeans)):
-                if vmeans[z] == mean:
-                    count +=1
-                    sommex += v[z][0]
-                    sommey += v[z][1]
-
-            tx = sommex / count
-            ty = sommey / count
-            means[mean][0] = tx
-            means[mean][1] = ty
+            # for z in range(len(vmeans)):
+            #     if vmeans[z] == mean:
+            #         count +=1
+            #         sommex += v[z][0]
+            #         sommey += v[z][1]
+            #
+            # tx = sommex / count
+            # ty = sommey / count
+            # means[mean][0] = tx
+            # means[mean][1] = ty
 
     return vmeans
 
@@ -68,7 +78,7 @@ def plot_clusters(cities, vmeans):
     # num_clusters = len(means)
 
     # Create a list of colors for each cluster
-    colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow']  # Add more colors if needed
+    colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'lime']  # Add more colors if needed
 
     # Plot each data point with its corresponding color
     for i, point in enumerate(cities):
