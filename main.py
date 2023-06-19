@@ -6,6 +6,9 @@ import aco
 
 if __name__ == '__main__':
 
+    init1 = toolbox.cpu_memory()
+    init2 = toolbox.cpu_usage()
+
     # iterations = [5, 10, 20, 50, 100]
     # ants = [5, 10, 50, 100, 200, 500, 1000, 2000, 5000]
     # beta = [1, 2, 5, 10, 20]
@@ -16,7 +19,6 @@ if __name__ == '__main__':
     # results = []
     #
     # t = time.time()
-
     #
     # with open("./LogTest.csv", 'w+') as writer:
     #     for v in villes:
@@ -28,6 +30,59 @@ if __name__ == '__main__':
     #                 f"{str(v)};{str(i)};{str(a)};{str(b)};{str(e)};{str(inten)};{str(path)};{str(score)};{str(time.time() - t)}"
     #                 + "\n"
     #             )
+
+    # path = [0, 7, 8, 37, 30, 43, 17, 6, 27, 5, 36, 18, 26, 16, 42, 29, 35, 45, 32, 19, 46, 20, 38, 31, 23, 9, 44, 34, 3, 25,
+    #  41, 1, 28, 4, 47, 33, 40, 15, 21, 2, 22, 13, 24, 12, 10, 11, 14, 39, 0]
+    # path2 = [1,
+# 8,
+# 38,
+# 31,
+# 44,
+# 18,
+# 7,
+# 28,
+# 6,
+# 37,
+# 19,
+# 27,
+# 17,
+# 43,
+# 30,
+# 36,
+# 46,
+# 33,
+# 20,
+# 47,
+# 21,
+# 32,
+# 39,
+# 48,
+# 5,
+# 42,
+# 24,
+# 10,
+# 45,
+# 35,
+# 4,
+# 26,
+# 2,
+# 29,
+# 34,
+# 41,
+# 16,
+# 22,
+# 3,
+# 23,
+# 14,
+# 25,
+# 13,
+# 11,
+# 12,
+# 15,
+# 40,
+# 9,
+# 1]
+    # tempa =
 
     iterations = 10
     ants = 1000
@@ -46,6 +101,13 @@ if __name__ == '__main__':
     print("Path : ", path)
     print("score : ", score)
 
+
+    # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
+    #
+    # print("Path : ", path)
+    # print("coords : ", coords)
+    # print("score : ", score)
+    #
     # toolbox.afficher(path, v)
 
     print("r1 : ", time.time() - t)
@@ -75,5 +137,11 @@ if __name__ == '__main__':
 
     # toolbox.afficher(path, v)
 
+    final1 = toolbox.cpu_memory()
+    final2 = toolbox.cpu_usage()
+    c1 = ((final1 - init1)/1024)/1024
+    c2 = final2 - init2
+    print("Memory usage : {} Mo".format(c1))
+    print("CPU usage : {} %".format(c2))
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
