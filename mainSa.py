@@ -136,14 +136,16 @@ if __name__ == '__main__':
         ax1.plot(c[0], c[1], 'ro')
 
     print(sa.distance_total(cities_coords))
-    result, cities_coords = sa.sa(temperature, cxreduction, iterations, cities_coords)
-    print(result)
-    for first, second in zip(cities_coords[:-1], cities_coords[1:]):
-        ax2.plot([first[0], second[0]], [first[1], second[1]], 'b')
-    ax2.plot([cities_coords[0][0], cities_coords[-1][0]], [cities_coords[0][1], cities_coords[-1][1]], 'b')
-    for c in cities_coords:
-        ax2.plot(c[0], c[1], 'ro')
-    plt.show()
+    best_dist, best_path = sa.sa(temperature, cxreduction, iterations, cities_coords)
+    print(best_dist)
+    # for first, second in zip(cities_coords[:-1], cities_coords[1:]):
+    #     ax2.plot([first[0], second[0]], [first[1], second[1]], 'b')
+    # ax2.plot([cities_coords[0][0], cities_coords[-1][0]], [cities_coords[0][1], cities_coords[-1][1]], 'b')
+    # for c in cities_coords:
+    #     ax2.plot(c[0], c[1], 'ro')
+    # plt.show()
+
+    toolbox.afficher(best_path,cities_coords)
 
 
 

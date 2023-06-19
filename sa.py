@@ -32,7 +32,7 @@ def sa(temperature, cx_regretion, iterations, cities_coords):
         diff = best_val - evaluate_val
         # calculate metropolis acceptance criterion
         metropolis = numpy.exp((diff) / temperature)
-        xrand = numpy.random.uniform()
+
 
         if evaluate_val < best_val:
             best_val = evaluate_val
