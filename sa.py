@@ -18,20 +18,23 @@ def sa(temperature, cx_regretion, iterations, cities_coords):
 
     best_val = distance_total(cities_coords)
 
+
     for i in range(iterations):
         start_iter = time.time()
         start_process_time = time.process_time()
         # Exchange two coordinates and get a new neighbour solution
-        c1, c2 = numpy.random.randint(0, len(cities_coords), size=2)
+        c1, c2 = numpy.random.randint(1, len(cities_coords), size=2)
         temp = cities_coords[c1]
         cities_coords[c1] = cities_coords[c2]
         cities_coords[c2] = temp
+
 
         # Get the new cost
         evaluate_val = distance_total(cities_coords)
         diff = best_val - evaluate_val
         # calculate metropolis acceptance criterion
-        metropolis = numpy.exp((diff) / temperature)
+
+        metropolis = numpy.exp(diff/ temperature)
 
 
         if evaluate_val < best_val:
@@ -45,7 +48,7 @@ def sa(temperature, cx_regretion, iterations, cities_coords):
                 cities_coords[c1] = cities_coords[c2]
                 cities_coords[c2] = temp
 
-        if temperature>0.001:
+        if temperature>100:
             temperature = temperature*cx_regretion
 
 

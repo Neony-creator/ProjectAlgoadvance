@@ -158,16 +158,16 @@ if __name__ == '__main__':
 
     # print(v)
     #
-    # paths, scores, means = aco.kcamions(2, v, iterations, ants, evaporation, alpha, beta, intensification)
+    paths, scores, means = aco.kcamions(2, v, iterations, ants, evaporation, alpha, beta, intensification)
     #
     # for i in range(len(paths)):
     #     print("Path : ", paths[i])
     #     print("score : ", scores[i])
     #
-    # toolbox.afficher_kcamions(means, paths)
+    toolbox.afficher_kcamions(means, paths)
 
 
-    coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
+    # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
     #
     # print("Path : ", path)
     # print("coords : ", coords)

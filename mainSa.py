@@ -8,10 +8,11 @@ import aco
 
 if __name__ == '__main__':
 
+    nb_camion=4
     cities_number = 10
-    iterations = 10000
-    temperature = 1000000
-    cxreduction = 0.70
+    iterations = 50000
+    temperature = 10000
+    cxreduction = 0.5
 
     p = time.process_time()
     t = time.time()
@@ -129,23 +130,53 @@ if __name__ == '__main__':
     fig = plt.figure(figsize=(10, 5))
     ax1 = fig.add_subplot(121)
     ax2 = fig.add_subplot(122)
-    for first, second in zip(cities_coords[:-1], cities_coords[1:]):
-        ax1.plot([first[0], second[0]], [first[1], second[1]], 'b')
-    ax1.plot([cities_coords[0][0], cities_coords[-1][0]], [cities_coords[0][1], cities_coords[-1][1]], 'b')
-    for c in cities_coords:
-        ax1.plot(c[0], c[1], 'ro')
+    vmeans = toolbox.kmeans(nb_camion, cities_coords)
+    # cities[0] = [50, 50]
+    # vmeans = toolbox.pie(nb_camion, cities_coords)
+    vmeans_sub = toolbox.get_sublists(vmeans)
+    colors=[
+    'b',  # bleu
+    'g',  # vert
+    'r',  # rouge
+    'c',  # cyan
+    'm',  # magenta
+    'y',  # jaune
+    'k',  # noir
+    'w'   # blanc
+]
+    for v in range(len(vmeans_sub)):
+        cluster = []
+        cluster.append(cities_coords[0])
+        for i in vmeans_sub[v]:
+            cluster.append(cities_coords[i])
+        print(cluster)
+        best_dist, best_path = sa.sa(temperature, cxreduction, iterations, cluster)
+        cluster = best_path
+
+        color = colors[v % len(colors)]  # Sélection de la couleur en bouclant sur la liste des couleurs
+        for first, second in zip(cluster[:-1], cluster[1:]):
+            ax1.plot([first[0], second[0]], [first[1], second[1]], color)
+        ax1.plot([cluster[0][0], cluster[-1][0]], [cluster[0][1], cluster[-1][1]], color)
+        for c in cluster:
+            ax1.plot(c[0], c[1], color + "o")
+
 
     print(sa.distance_total(cities_coords))
-    best_dist, best_path = sa.sa(temperature, cxreduction, iterations, cities_coords)
+    best_dist, best_path= sa.sa(temperature, cxreduction, iterations, cities_coords)
     print(best_dist)
-    # for first, second in zip(cities_coords[:-1], cities_coords[1:]):
-    #     ax2.plot([first[0], second[0]], [first[1], second[1]], 'b')
-    # ax2.plot([cities_coords[0][0], cities_coords[-1][0]], [cities_coords[0][1], cities_coords[-1][1]], 'b')
-    # for c in cities_coords:
-    #     ax2.plot(c[0], c[1], 'ro')
-    # plt.show()
+    print(best_path)
+    print(cities_coords)
+    for first, second in zip(best_path[:-1], best_path[1:]):
+        ax2.plot([first[0], second[0]], [first[1], second[1]], 'b')
+    ax2.plot([best_path[0][0], best_path[-1][0]], [best_path[0][1], best_path[-1][1]], 'b')
+    for i, c in enumerate(best_path):
+        if i == 0:
+            ax2.plot(c[0], c[1], 'ro')  # Utiliser 'go' pour un point vert
+        else:
+            ax2.plot(c[0], c[1], 'bo')
+    ax2.plot(best_path[0][0], best_path[0][1], 'b')
+    plt.show()
 
-    toolbox.afficher(best_path,cities_coords)
 
 
 
