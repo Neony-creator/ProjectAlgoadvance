@@ -32,7 +32,6 @@ def afficher(path, cities):
         plt.plot([start[0], end[0]], [start[1], end[1]], color='black')
 
     plt.grid(False)
-    plt.figure(figsize=(16, 9))
     plt.show()
 
 

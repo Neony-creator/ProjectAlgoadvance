@@ -22,7 +22,6 @@ def evaluate(cities, paths):
         coordinates_j.append(coords_j)
 
     best = scores.index(min(scores))
-
     return (coordinates_i[best], coordinates_j[best]), paths[best], scores[best]
 
 def choose_next_city(probability, available, current):
@@ -45,10 +44,18 @@ def update(pheromone, alpha, villes, beta):
         for i in range(len(pheromone))
     ]
 
+def evaporate(pheromone, evaporation):
+    return [[pheromone[i][j] * evaporation for j in range(len(pheromone))] for i in range(len(pheromone))]
+
+
+def intensify(pheromone, intensification, best_path_coords):
+    for i in range(len(best_path_coords[0])):
+        pheromone[best_path_coords[0][i]][best_path_coords[1][i]] += intensification
+    return pheromone
+
 def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
 
     best_path = []
-    best_path_coords = []
     best_score = 0
 
     pheromone = [[1] * len(cities) for _ in range(len(cities))]
@@ -56,14 +63,14 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
     probability = update(pheromone, alpha, cities, beta)
     available_cities = list(range(len(cities)))
 
-    for i in range(iterations):
+    for _ in range(iterations):
         paths = []
         path = []
-        for ant in range(ants):
+        for _ in range(ants):
             current_city = 0
             path.append(current_city)
 
-            for a in range(len(available_cities), 0, -1):
+            for _ in range(len(available_cities), 0, -1):
                 available_cities.remove(current_city)
                 if len(available_cities) > 0:
                     current_city = available_cities[choose_next_city(probability, available_cities, current_city)]
@@ -74,28 +81,27 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
             paths.append(path)
             path = []
 
-        best_path_coords, best_path, best_score = evaluate(cities, paths)
+        best_path_coords, best_path, scores = evaluate(cities, paths)
 
-        for c in range(len(pheromone)):
-            for c2 in range(len(pheromone)):
-                pheromone[c][c2] *= evaporation
+        evaporate(pheromone, evaporation)
 
-        for z in range(len(best_path_coords[0])):
-            pheromone[best_path_coords[0][z]][best_path_coords[1][z]] += intensification
+        intensify(pheromone, intensification, best_path_coords)
 
         probability = update(pheromone, alpha, cities, beta)
 
-    return best_path_coords, best_path, best_score
+    return best_path, best_score
 
-def kcamions(cluster, cities, iterations, ants, evaporation, alpha, beta, intensification):
+def kcamions(cluster, cities, iterations, ants, evaporation, alpha, beta, intensification, pie):
 
-    vmeans = toolbox.kmeans(cluster, cities)
-    # cities[0] = [50, 50]
-    # vmeans = toolbox.pie(cluster, cities)
+    if pie:
+        cities[0] = [50, 50]
+        vmeans = toolbox.pie(cluster, cities)
+    else:
+        vmeans = toolbox.kmeans(cluster, cities)
+
     vmeans_sub = toolbox.get_sublists(vmeans)
 
     best_paths = []
-    best_paths_coords = []
     best_scores = []
     clusters = []
 
@@ -106,39 +112,7 @@ def kcamions(cluster, cities, iterations, ants, evaporation, alpha, beta, intens
 
         clusters.append(current_cluster)
 
-        pheromone = [[1] * len(current_cluster) for _ in range(len(current_cluster))]
-
-        probability = update(pheromone, alpha, current_cluster, beta)
-        available_cities = list(range(len(current_cluster)))
-
-        for i in range(iterations):
-            paths = []
-            path = []
-            for ant in range(ants):
-                current_city = 0
-                path.append(current_city)
-
-                for a in range(len(available_cities), 0, -1):
-                    available_cities.remove(current_city)
-                    if len(available_cities) > 0:
-                        current_city = available_cities[choose_next_city(probability, available_cities, current_city)]
-                        path.append(current_city)
-
-                path.append(0)
-                available_cities = list(range(len(current_cluster)))
-                paths.append(path)
-                path = []
-
-            best_path_coords, best_path, best_score = evaluate(current_cluster, paths)
-
-            for c in range(len(pheromone)):
-                for c2 in range(len(pheromone)):
-                    pheromone[c][c2] *= evaporation
-
-            for z in range(len(best_path_coords[0])):
-                pheromone[best_path_coords[0][z]][best_path_coords[1][z]] += intensification
-
-            probability = update(pheromone, alpha, current_cluster, beta)
+        best_path, best_score = aco(current_cluster, iterations, ants, evaporation, alpha, beta, intensification)
 
         best_paths.append(best_path)
         best_scores.append(best_score)

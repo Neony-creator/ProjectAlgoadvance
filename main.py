@@ -1,3 +1,4 @@
+import random
 import time
 import dataset
 import held_karp
@@ -31,61 +32,8 @@ if __name__ == '__main__':
     #                 + "\n"
     #             )
 
-    # path = [0, 7, 8, 37, 30, 43, 17, 6, 27, 5, 36, 18, 26, 16, 42, 29, 35, 45, 32, 19, 46, 20, 38, 31, 23, 9, 44, 34, 3, 25,
-    #  41, 1, 28, 4, 47, 33, 40, 15, 21, 2, 22, 13, 24, 12, 10, 11, 14, 39, 0]
-    # path2 = [1,
-# 8,
-# 38,
-# 31,
-# 44,
-# 18,
-# 7,
-# 28,
-# 6,
-# 37,
-# 19,
-# 27,
-# 17,
-# 43,
-# 30,
-# 36,
-# 46,
-# 33,
-# 20,
-# 47,
-# 21,
-# 32,
-# 39,
-# 48,
-# 5,
-# 42,
-# 24,
-# 10,
-# 45,
-# 35,
-# 4,
-# 26,
-# 2,
-# 29,
-# 34,
-# 41,
-# 16,
-# 22,
-# 3,
-# 23,
-# 14,
-# 25,
-# 13,
-# 11,
-# 12,
-# 15,
-# 40,
-# 9,
-# 1]
-    # tempa =
-
     iterations = 10
-    ants = 1000
+    ants = 5
     alpha = 1
     beta = 10
     evaporation = 0.5
@@ -94,12 +42,13 @@ if __name__ == '__main__':
     t = time.time()
 
     v = toolbox.generate_cities(10)
-    print(v)
+    # v = dataset.dataset1
+    # print(v)
 
-    score, path = held_karp.held_karp(v)
+    # score, path = held_karp.held_karp(v)
 
-    print("Path : ", path)
-    print("score : ", score)
+    # print("Path : ", path)
+    # print("score : ", score)
 
 
     # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
@@ -110,32 +59,39 @@ if __name__ == '__main__':
     #
     # toolbox.afficher(path, v)
 
-    print("r1 : ", time.time() - t)
-    print("r2 : ", time.process_time() - p)
-
-    t = time.time()
-    p = time.process_time()
+    # print("r1 : ", time.time() - t)
+    # print("r2 : ", time.process_time() - p)
+    #
+    # t = time.time()
+    # p = time.process_time()
 
     # v = dataset.dataset1
 
-    # print(v)
+    print(v)
     #
-    # paths, scores, means = aco.kcamions(10, v, iterations, ants, evaporation, alpha, beta, intensification)
-    #
-    # for i in range(len(paths)):
-    #     print("Path : ", paths[i])
-    #     print("score : ", scores[i])
-    #
-    # toolbox.afficher_kcamions(means, paths)
-    #
+    paths, scores, means = aco.kcamions(3, v, iterations, ants, evaporation, alpha, beta, intensification, True)
 
-    coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
+    for i in range(len(paths)):
+        print("Path : ", paths[i])
+        print("score : ", scores[i])
+
+    toolbox.afficher_kcamions(means, paths)
+
+    paths, scores, means = aco.kcamions(3, v, iterations, ants, evaporation, alpha, beta, intensification, False)
+
+    for i in range(len(paths)):
+        print("Path : ", paths[i])
+        print("score : ", scores[i])
+
+    toolbox.afficher_kcamions(means, paths)
+
+
+    path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
 
     print("Path : ", path)
-    print("coords : ", coords)
     print("score : ", score)
 
-    # toolbox.afficher(path, v)
+    toolbox.afficher(path, v)
 
     final1 = toolbox.cpu_memory()
     final2 = toolbox.cpu_usage()
