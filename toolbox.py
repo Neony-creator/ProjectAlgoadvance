@@ -1,6 +1,8 @@
 import math
 import random
 from collections import defaultdict
+import psutil
+import os
 
 import matplotlib.pyplot as plt
 
@@ -116,3 +118,14 @@ def get_sublists(lst):
     for i, num in enumerate(lst):
         sublists[num].append(i)
     return list(sublists.values())
+
+
+def cpu_usage():
+    process = psutil.Process(os.getpid())
+    mem_info = process.memory_info()
+    return mem_info.rss
+
+def cpu_pro():
+    cpu_percentages = psutil.cpu_percent(interval=1, percpu=True)
+    return sum(cpu_percentages) / len(cpu_percentages)
+

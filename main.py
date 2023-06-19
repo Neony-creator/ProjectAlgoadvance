@@ -1,10 +1,12 @@
-import itertools
 import time
 
 import toolbox
 import aco
 
 if __name__ == '__main__':
+
+    init1 = toolbox.cpu_usage()
+    init2 = toolbox.cpu_pro()
 
     # iterations = [5, 10, 20, 50, 100]
     # ants = [5, 10, 50, 100, 200, 500, 1000, 2000, 5000]
@@ -172,6 +174,9 @@ if __name__ == '__main__':
     # print("score : ", score)
     #
     # toolbox.afficher(path, v)
-
+    final1 = toolbox.cpu_usage()
+    final2 = toolbox.cpu_pro()
+    c1 = ((final1 - init1)/1024)/1024
+    c2 = final2 - init2
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
