@@ -25,11 +25,60 @@ class Coordinate:
 if __name__ == '__main__':
     # Fill up the coordinates
     coords = []
-    for i in range(40):
-        coords.append(Coordinate(random.randint(1, 100), random.randint(1, 100)))
+    test = [
+[6734,1453],
+[2233,810],
+[5530,1424],
+[401,841],
+[3082,1644],
+[7608,4458],
+[7573,3716],
+[7265,1268],
+[6898,1885],
+[1112,2049],
+[5468,2606],
+[5989,2873],
+[4706,2674],
+[4612,2035],
+[6347,2683],
+[6107,669],
+[7611,5184],
+[7462,3590],
+[7732,4723],
+[5900,3561],
+[4483,3369],
+[6101,1110],
+[5199,2182],
+[1633,2809],
+[4307,2322],
+[675,1006],
+[7555,4819],
+[7541,3981],
+[3177,756],
+[7352,4506],
+[7545,2801],
+[3245,3305],
+[6426,3173],
+[4608,1198],
+[23,2216],
+[7248,3779],
+[7762,4595],
+[7392,2244],
+[3484,2829],
+[6271,2135],
+[4985,140],
+[1916,1569],
+[7280,4899],
+[7509,3239],
+[10,2676],
+[6807,2993],
+[5185,3258],
+[3023,1942]]
+    for i in test:
+        coords.append(Coordinate(i[0], i[1]))
     print(coords)
-    machin = [1, 5, 20]
-    for i in machin
+    # machin = [1, 5, 20]
+    # for i in machin
     # Plot
 
     fig = plt.figure(figsize=(10, 5))
@@ -47,37 +96,35 @@ if __name__ == '__main__':
     cost0 =Coordinate.get_total_distance(coords)
 
     T = 10000
-    factor = 0.99
+    factor = 0.5
     T_init =T
 
     for i in range(50000):
         #print(i, 'cost =', cost0)
+        if T>0.001:
+            T = T*factor
 
-        T = T*factor
-        for j in range(1):
-            # Exchange two coordinates and get a new neighbour solution
-            r1, r2 = numpy.random.randint(0, len(coords), size=2)
+        # Exchange two coordinates and get a new neighbour solution
+        r1, r2 = numpy.random.randint(0, len(coords), size=2)
 
-            temp =coords[r1]
-            coords[r1] =coords[r2]
-            coords[r2] = temp
+        temp =coords[r1]
+        coords[r1] =coords[r2]
+        coords[r2] = temp
 
-            # Get the new cost
-            cost1 = Coordinate.get_total_distance(coords)
+        # Get the new cost
+        cost1 = Coordinate.get_total_distance(coords)
 
-            if cost1 < cost0:
+        if cost1 < cost0:
+            cost0=cost1
+        else:
+            x = numpy.random.uniform()
+            if x < numpy.exp((cost0-cost1)/T):
                 cost0=cost1
             else:
-                if(T==0):
-                    T = 1e-6
-                x = numpy.random.uniform()
-                if x < numpy.exp((cost0-cost1)/T):
-                    cost0=cost1
-                else:
-                    temp = coords[r1]
-                    coords[r1] = coords[r2]
-                    coords[r2] = temp
-
+                temp = coords[r1]
+                coords[r1] = coords[r2]
+                coords[r2] = temp
+    coords.append(coords[0])
     # Plot th result
 
 
