@@ -178,5 +178,7 @@ if __name__ == '__main__':
     final2 = toolbox.cpu_pro()
     c1 = ((final1 - init1)/1024)/1024
     c2 = final2 - init2
+    print("c1 : ", c1)
+    print("c2 : ", c2)
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
