@@ -1,5 +1,7 @@
 import math
 import random
+from collections import defaultdict
+
 import matplotlib.pyplot as plt
 
 def generate_cities(n):
@@ -13,29 +15,26 @@ def euclidean_distance(city1, city2):
 
 
 def afficher(path, cities):
-    fig, ax = plt.subplots()
 
-    ax.scatter([city[0] for city in cities], [city[1] for city in cities], color='blue', zorder=2)
+    plt.scatter([city[0] for city in cities], [city[1] for city in cities], color='blue', zorder=2)
 
     for i, city in enumerate(cities):
         if i == path[0]:
-            ax.scatter(city[0], city[1], color='red', marker='s', s=100)
+            plt.scatter(city[0], city[1], color='red', marker='s', s=100)
         else:
-            ax.scatter(city[0], city[1], color='blue')
+            plt.scatter(city[0], city[1], color='blue')
 
     for i in range(len(path) - 1):
         start = cities[path[i]]
         end = cities[path[i + 1]]
-        ax.plot([start[0], end[0]], [start[1], end[1]], color='black')
+        plt.plot([start[0], end[0]], [start[1], end[1]], color='black')
 
-    ax.grid(False)
-
+    plt.grid(False)
+    plt.figure(figsize=(16, 9))
     plt.show()
 
 
-def kmeans(k, v):
-    # means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
-    # means = [[50, 50] for _ in range(k)]
+def pie(k, v):
     points = []
     angles = linspace(0, 2 * math.pi, k + 1)
     for angle in angles:
@@ -43,7 +42,22 @@ def kmeans(k, v):
         y = 100 / 2 * math.sin(angle) + 100 / 2
         points.append((x, y))
     means = [[x, y] for x, y in points]
-    print(points)
+
+    vmeans = []
+
+    for _ in range(1):
+        for j in range(len(v)):
+            distance = [euclidean_distance(means[z], v[j]) for z in range(k)]
+            a = min(distance)
+            mean = distance.index(a)
+            vmeans.append(mean)
+
+    return vmeans
+
+def kmeans(k, v):
+    # means = [[random.randint(1, 100), random.randint(1, 100)] for _ in range(k)]
+    means = [[v[0][0], v[0][1]] for _ in range(k)]
+
 
 
     vmeans = []
@@ -58,16 +72,16 @@ def kmeans(k, v):
             sommex = 0
             sommey = 0
             count = 0
-            # for z in range(len(vmeans)):
-            #     if vmeans[z] == mean:
-            #         count +=1
-            #         sommex += v[z][0]
-            #         sommey += v[z][1]
-            #
-            # tx = sommex / count
-            # ty = sommey / count
-            # means[mean][0] = tx
-            # means[mean][1] = ty
+            for z in range(len(vmeans)):
+                if vmeans[z] == mean:
+                    count +=1
+                    sommex += v[z][0]
+                    sommey += v[z][1]
+
+            tx = sommex / count
+            ty = sommey / count
+            means[mean][0] = tx
+            means[mean][1] = ty
 
     return vmeans
 
@@ -79,25 +93,26 @@ def linspace(start, stop, n):
     for i in range(n):
         yield start + h * i
 
+def afficher_kcamions(clusters, paths):
 
-# def plot_clusters(data, assignments, means):
-def plot_clusters(cities, vmeans):
-    # num_clusters = len(means)
+    colors = ['lightsalmon', 'lime', 'royalblue', 'lavender', 'crimson', 'fuchsia', 'red', 'green', 'orange', 'purple', 'yellow',]
 
-    # Create a list of colors for each cluster
-    colors = ['red', 'green', 'blue', 'orange', 'purple', 'yellow', 'lime']  # Add more colors if needed
+    for i, cluster in enumerate(clusters):
+        cluster_color = colors[i % len(colors)]
+        x = [coord[0] for coord in [cluster[point] for point in paths[i]]]
+        y = [coord[1] for coord in [cluster[point] for point in paths[i]]]
+        plt.plot(x, y, color=cluster_color)
 
-    # Plot each data point with its corresponding color
-    for i, point in enumerate(cities):
-        cluster = vmeans[i]
-        color = colors[cluster % len(colors)]  # Assign colors cyclically if there are more clusters than colors
-        plt.scatter(point[0], point[1], color=color)
-
-    # for i in range(len(vmeans)):
-
-
-    # Plot means with larger markers
-    # for mean in means:
-    #     plt.scatter(mean[0], mean[1], color='black', marker='x', s=100)
+        x = [coord[0] for coord in cluster]
+        y = [coord[1] for coord in cluster]
+        plt.scatter(x[1:], y[1:], color=cluster_color)  # Plot cities excluding the first city
+        plt.scatter(x[0], y[0], color='blue', marker='s', zorder=3)
 
     plt.show()
+
+
+def get_sublists(lst):
+    sublists = defaultdict(list)
+    for i, num in enumerate(lst):
+        sublists[num].append(i)
+    return list(sublists.values())
