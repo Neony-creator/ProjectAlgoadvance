@@ -120,12 +120,12 @@ def get_sublists(lst):
     return list(sublists.values())
 
 
-def cpu_usage():
+def cpu_memory():
     process = psutil.Process(os.getpid())
     mem_info = process.memory_info()
     return mem_info.rss
 
-def cpu_pro():
+def cpu_usage():
     cpu_percentages = psutil.cpu_percent(interval=1, percpu=True)
-    return sum(cpu_percentages) / len(cpu_percentages)
+    return sum(cpu_percentages) / len(cpu_percentages)  #Divise le resultat par le nombre de coeurs
 

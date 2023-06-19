@@ -5,8 +5,8 @@ import aco
 
 if __name__ == '__main__':
 
-    init1 = toolbox.cpu_usage()
-    init2 = toolbox.cpu_pro()
+    init1 = toolbox.cpu_memory()
+    init2 = toolbox.cpu_usage()
 
     # iterations = [5, 10, 20, 50, 100]
     # ants = [5, 10, 50, 100, 200, 500, 1000, 2000, 5000]
@@ -174,11 +174,11 @@ if __name__ == '__main__':
     # print("score : ", score)
     #
     # toolbox.afficher(path, v)
-    final1 = toolbox.cpu_usage()
-    final2 = toolbox.cpu_pro()
+    final1 = toolbox.cpu_memory()
+    final2 = toolbox.cpu_usage()
     c1 = ((final1 - init1)/1024)/1024
     c2 = final2 - init2
-    print("c1 : ", c1)
-    print("c2 : ", c2)
+    print("Memory usage : {} Mo".format(c1))
+    print("CPU usage : {} %".format(c2))
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
