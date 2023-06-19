@@ -1,12 +1,10 @@
 import time
-
+import dataset
+import held_karp
 import toolbox
 import aco
 
 if __name__ == '__main__':
-
-    init1 = toolbox.cpu_usage()
-    init2 = toolbox.cpu_pro()
 
     # iterations = [5, 10, 20, 50, 100]
     # ants = [5, 10, 50, 100, 200, 500, 1000, 2000, 5000]
@@ -18,6 +16,7 @@ if __name__ == '__main__':
     # results = []
     #
     # t = time.time()
+
     #
     # with open("./LogTest.csv", 'w+') as writer:
     #     for v in villes:
@@ -30,61 +29,8 @@ if __name__ == '__main__':
     #                 + "\n"
     #             )
 
-    # path = [0, 7, 8, 37, 30, 43, 17, 6, 27, 5, 36, 18, 26, 16, 42, 29, 35, 45, 32, 19, 46, 20, 38, 31, 23, 9, 44, 34, 3, 25,
-    #  41, 1, 28, 4, 47, 33, 40, 15, 21, 2, 22, 13, 24, 12, 10, 11, 14, 39, 0]
-    # path2 = [1,
-# 8,
-# 38,
-# 31,
-# 44,
-# 18,
-# 7,
-# 28,
-# 6,
-# 37,
-# 19,
-# 27,
-# 17,
-# 43,
-# 30,
-# 36,
-# 46,
-# 33,
-# 20,
-# 47,
-# 21,
-# 32,
-# 39,
-# 48,
-# 5,
-# 42,
-# 24,
-# 10,
-# 45,
-# 35,
-# 4,
-# 26,
-# 2,
-# 29,
-# 34,
-# 41,
-# 16,
-# 22,
-# 3,
-# 23,
-# 14,
-# 25,
-# 13,
-# 11,
-# 12,
-# 15,
-# 40,
-# 9,
-# 1]
-    # tempa =
-
     iterations = 10
-    ants = 5000
+    ants = 1000
     alpha = 1
     beta = 10
     evaporation = 0.5
@@ -92,93 +38,42 @@ if __name__ == '__main__':
     p = time.process_time()
     t = time.time()
 
-    # v = toolbox.generate_cities(50)
-    v = [
-    [6734,1453],
-    [2233,810],
-    [5530,1424],
-    [401,841],
-    [3082,1644],
-    [7608,4458],
-    [7573,3716],
-    [7265,1268],
-    [6898,1885],
-    [1112,2049],
-    [5468,2606],
-    [5989,2873],
-    [4706,2674],
-    [4612,2035],
-    [6347,2683],
-    [6107,669],
-    [7611,5184],
-    [7462,3590],
-    [7732,4723],
-    [5900,3561],
-    [4483,3369],
-    [6101,1110],
-    [5199,2182],
-    [1633,2809],
-    [4307,2322],
-    [675,1006],
-    [7555,4819],
-    [7541,3981],
-    [3177,756],
-    [7352,4506],
-    [7545,2801],
-    [3245,3305],
-    [6426,3173],
-    [4608,1198],
-    [23,2216],
-    [7248,3779],
-    [7762,4595],
-    [7392,2244],
-    [3484,2829],
-    [6271,2135],
-    [4985,140],
-    [1916,1569],
-    [7280,4899],
-    [7509,3239],
-    [10,2676],
-    [6807,2993],
-    [5185,3258],
-    [3023,1942]]
-
-    # score1 = sum(
-    #     toolbox.euclidean_distance(v[path[i]], v[path[i + 1]])
-    #     for i in range(len(path)-1)
-    # )
-    #
-    # score2 = sum(
-    #     toolbox.euclidean_distance(v[path2[i]], v[path2[i + 1]])
-    #     for i in range(len(path)-1)
-    # )
-    #
-    # print("s1 ", score1)
-    # print("s2 ", score2)
-
+    v = toolbox.generate_cities(10)
     print(v)
 
-    paths, scores, means = aco.kcamions(2, v, iterations, ants, evaporation, alpha, beta, intensification)
+    score, path = held_karp.held_karp(v)
 
-    for i in range(len(paths)):
-        print("Path : ", paths[i])
-        print("score : ", scores[i])
+    print("Path : ", path)
+    print("score : ", score)
 
-    toolbox.afficher_kcamions(means, paths)
-
-
-    # coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
-    #
-    # print("Path : ", path)
-    # print("coords : ", coords)
-    # print("score : ", score)
-    #
     # toolbox.afficher(path, v)
-    final1 = toolbox.cpu_usage()
-    final2 = toolbox.cpu_pro()
-    c1 = ((final1 - init1)/1024)/1024
-    c2 = final2 - init2
-    print("c1 : ", c1)
-    print("c2 : ", c2)
+
+    print("r1 : ", time.time() - t)
+    print("r2 : ", time.process_time() - p)
+
+    t = time.time()
+    p = time.process_time()
+
+    # v = dataset.dataset1
+
+    # print(v)
+    #
+    # paths, scores, means = aco.kcamions(10, v, iterations, ants, evaporation, alpha, beta, intensification)
+    #
+    # for i in range(len(paths)):
+    #     print("Path : ", paths[i])
+    #     print("score : ", scores[i])
+    #
+    # toolbox.afficher_kcamions(means, paths)
+    #
+
+    coords, path, score = aco.aco(v, iterations, ants, evaporation, alpha, beta, intensification)
+
+    print("Path : ", path)
+    print("coords : ", coords)
+    print("score : ", score)
+
+    # toolbox.afficher(path, v)
+
     print("r1 : ", time.time() - t)
     print("r2 : ", time.process_time() - p)
