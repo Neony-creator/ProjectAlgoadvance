@@ -81,7 +81,7 @@ def aco(cities, iterations, ants, evaporation, alpha, beta, intensification):
             paths.append(path)
             path = []
 
-        best_path_coords, best_path, scores = evaluate(cities, paths)
+        best_path_coords, best_path, best_score = evaluate(cities, paths)
 
         evaporate(pheromone, evaporation)
 
